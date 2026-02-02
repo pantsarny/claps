@@ -28,7 +28,7 @@
 			--banner-bg: <?php the_field('banner_background', 'option'); ?>;
 			--buttons-color: <?php the_field('buttons_color', 'option'); ?>;
 			--buttons-color-v2: <?php the_field('buttons_color_v2', 'option'); ?>;
-			--background-color-body: <?php the_field('background_color_body', 'option'); ?>;
+			--background-color-body: <?= str_replace('##', '#', get_field('background_color_body', 'option')); ?>;
 			--paragraph-color: <?php the_field('paragraph_color', 'option'); ?>;
 			--h2h3h4-color: <?php the_field('h2h3h4_color', 'option'); ?>;
 			--hero-bg: <?php the_field('hero_block_bg', 'option'); ?>;
@@ -70,7 +70,7 @@
 			background-color: var(--table-background) !important;
 		}
         body {
-            background-color: var(--background-color-body, #000) !important;
+            background-color: var(--background-color-body) !important;
             display: block !important;
         }
         .hero .container, main {
