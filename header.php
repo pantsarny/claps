@@ -69,6 +69,13 @@
 		.text table {
 			background-color: var(--table-background) !important;
 		}
+        body {
+            background-color: var(--background-color-body, #000) !important;
+            display: block !important;
+        }
+        .hero .container, main {
+            padding-top: 129px !important;
+        }
 	</style>
 
 <body <?php body_class(); ?>>
@@ -96,7 +103,6 @@
 				<?php if(get_field('header_button_2', 'option')) { ?>
                 	<a href="<?php echo get_field('header_button_2', 'option')['url']; ?>" class="button button-secondary" target="_blank"><?php echo get_field('header_button_2', 'option')['title']; ?></a>
 				<?php } ?>
-		<?php if (function_exists('pll_the_languages')) pll_the_languages(['dropdown' => 1]); ?>
             </div>
         </div>
     </header>
