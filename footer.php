@@ -10,7 +10,6 @@
                 <div class="footer__top-description">
                    	<?php the_custom_logo(); ?>
                     <?php the_field('footer_text', 'option'); ?>
-                    <?php if (function_exists('pll_the_languages')) pll_the_languages(['dropdown' => 1]); ?>
                 </div>
                 <?php if( have_rows('footer_menu', 'option') ): ?>
                     <?php while( have_rows('footer_menu', 'option') ) : the_row(); ?>
@@ -54,7 +53,7 @@
                         <?php endwhile; ?>
                     </ul>
                 <?php endif;?>
-                </ul>
+                <?php if (function_exists('pll_the_languages')) pll_the_languages(['dropdown' => 1]); ?>
             </div>
         </div>
     </footer>

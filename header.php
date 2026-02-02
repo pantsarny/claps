@@ -79,7 +79,6 @@
 </head>
 
 <body <?php body_class(); ?>>
-<?php var_dump(get_field('background_color_body', 'option')); ?>
     <header class="header">
         <div class="container">
 			<?php the_custom_logo(); ?>
