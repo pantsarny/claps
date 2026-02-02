@@ -19,8 +19,7 @@
 	" rel="stylesheet">
 	
     <?php wp_head(); ?>
-</head>
-	
+
 	<style>
 		:root {
 			--header-bg-color: <?php the_field('header_background_color', 'option'); ?>;
@@ -77,8 +76,10 @@
             padding-top: 129px !important;
         }
 	</style>
+</head>
 
 <body <?php body_class(); ?>>
+<?php var_dump(get_field('background_color_body', 'option')); ?>
     <header class="header">
         <div class="container">
 			<?php the_custom_logo(); ?>
