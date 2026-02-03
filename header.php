@@ -75,6 +75,9 @@
         .hero .container, main {
             padding-top: 129px !important;
         }
+        main {
+            overflow: hidden;
+        }
 	</style>
 </head>
 
