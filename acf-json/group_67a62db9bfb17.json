@@ -721,6 +721,25 @@
             "pll_default_value": ""
         },
         {
+            "key": "field_6997269752d22",
+            "label": "Accordion Item Title Color",
+            "name": "accordion_item_title_color",
+            "aria-label": "",
+            "type": "color_picker",
+            "instructions": "Если не задано - используется значение Links color",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "enable_opacity": 0,
+            "return_format": "string",
+            "allow_in_bindings": 0
+        },
+        {
             "key": "field_67b7379a53de4",
             "label": "Table background Head",
             "name": "table_background",
@@ -845,6 +864,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "pll_display_field_instructions": 1,
-    "modified": 1771509266
+    "modified": 1771513526
 }
