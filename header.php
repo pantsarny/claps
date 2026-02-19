@@ -33,7 +33,9 @@
 			--hero-bg: <?php the_field('hero_block_bg', 'option'); ?>;
 			--faq-item-bg-color: <?php the_field('faq_item_bg_color', 'option'); ?>;
 			--links-color: <?php the_field('links_color', 'option'); ?>;
+			--links-color-content: <?php echo get_field('links_color_content', 'option') ?: get_field('links_color', 'option'); ?>;
 			--table-background: <?php the_field('table_background', 'option'); ?>;
+			--table-background-body: <?php echo get_field('table_background_body', 'option') ?: 'initial'; ?>;
 		}
 		.header {
 			background: var(--header-bg-color);
@@ -41,6 +43,9 @@
 		a {
 			color: var(--links-color) !important;
 		}
+        main a {
+            color: var(--links-color-content) !important;
+        }
 		.accordion__item {
 			background-color: var(--faq-item-bg-color) !important;
 		}
@@ -68,9 +73,12 @@
 		body {
 			background-color: var(--background-color-body) !important;
 		}
- 		.text table {
+ 		.text table thead {
 			background-color: var(--table-background) !important;
 		}
+        .text table tbody {
+            background-color: var(--table-background-body) !important;
+        }
         body {
             background-color: var(--background-color-body) !important;
             display: block !important;
