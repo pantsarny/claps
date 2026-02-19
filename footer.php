@@ -18,19 +18,7 @@
                             <?php if( have_rows('menu_list') ): ?>
                             <ul>
                                 <?php while( have_rows('menu_list') ) : the_row(); ?>
-									<?php
-									$url = get_sub_field('link')['url'];
-									if (function_exists('pll_get_post')) {
-										$post_id = url_to_postid($url);
-										if ($post_id) {
-											$translated = pll_get_post($post_id);
-											if ($translated) {
-												$url = get_permalink($translated);
-											}
-										}
-									}
-									?>
-                                    <li><a href="<?php echo $url; ?>"><?php echo get_sub_field('link')['title']; ?></a></li>
+                                    <li><a href="<?php echo get_sub_field('link')['url']; ?>"><?php echo get_sub_field('link')['title']; ?></a></li>
                                 <?php endwhile; ?>
                             </ul>
                             <?php endif;?>
@@ -41,7 +29,7 @@
         </div>
         <div class="footer__copyright">
             <div class="container">
-                <span>© 2025 HighFlyBet. All rights reserved</span>
+                <span>© <?php echo date('Y'); ?> <?php echo get_bloginfo(); ?>. All rights reserved</span>
                 <?php if( have_rows('footer_logos', 'option') ): ?>
                     <ul>
                         <?php while( have_rows('footer_logos', 'option') ) : the_row(); ?>
@@ -100,7 +88,7 @@
         <div class="container">
             <?php the_custom_logo(); ?>
             <span class="sticky-cta__text"><?php the_field('title_banner', 'option'); ?></span>
-            <a href="<?php the_field('banner_link', 'option'); ?>" class="button button-secondary" target="_blank"><?php the_field('button_text_banner', 'option'); ?></a>
+            <a href="<?php echo get_field('global_link', 'option')['url']; ?>" class="button button-secondary" target="_blank"><?php echo get_field('global_link', 'option')['title']; ?></a>
         </div>
         <button class="sticky-cta__close">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="#fff">

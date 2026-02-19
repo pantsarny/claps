@@ -15,6 +15,11 @@
  * runs before the init hook. The init hook is too late for some features, such
  * as indicating support for post thumbnails.
  */
+ 
+require_once ABSPATH . 'wp-admin/includes/file.php';
+require_once ABSPATH . 'wp-admin/includes/media.php';
+require_once ABSPATH . 'wp-admin/includes/image.php';
+
 add_filter( 'wpseo_canonical', '__return_false');
 add_filter( 'get_canonical_url', function ( $canonical, $page ) {
 
@@ -56,7 +61,7 @@ add_filter('pll_rel_hreflang_attributes', function ($hreflangs) {
         if ($short === 'x-default') {
             continue;
         }
-        
+
         if (str_contains($short, '-')) {
             $lowercased = mb_strtolower($short);
             if ($short !== $lowercased) {
@@ -65,7 +70,7 @@ add_filter('pll_rel_hreflang_attributes', function ($hreflangs) {
             }
             continue;
         }
-        
+
         foreach ($languages as $lang) {
             if (explode('-', $lang->get_locale('display'), 2)[0] === $short) {
                 $hreflangs[mb_strtolower($lang->slug)] = $url;
@@ -84,6 +89,7 @@ add_filter('pll_rel_hreflang_attributes', function ($hreflangs) {
 
     return $hreflangs;
 });
+
 
 add_action('wp_enqueue_scripts', 'claps_styles');
 function claps_styles()
@@ -105,6 +111,7 @@ function menus()
 {
     register_nav_menus([
         'primary' => 'Primary menu',
+		'lang' => 'Lang menu',
         'error' => 'Error menu'
     ]);
 }
@@ -178,4 +185,130 @@ add_filter('body_class', function($classes) {
         $classes[] = 'rtl';
     }
     return $classes;
+});
+
+function shortcode_chat_btn($atts) {
+
+	$atts = shortcode_atts([
+		'url'  => '#',
+		'text' => 'Chat'
+	], $atts);
+
+	ob_start();
+	?>
+	<a href="<?php echo esc_url($atts['url']); ?>" class="button button-secondary chat-btn" target="_blank">
+		<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+			<path d="M8 10.5H16" stroke="#1C274C" stroke-width="1.5" stroke-linecap="round"/>
+			<path d="M8 14H13.5" stroke="#1C274C" stroke-width="1.5" stroke-linecap="round"/>
+			<path d="M17 3.33782C15.5291 2.48697 13.8214 2 12 2C6.47715 2 2 6.47715 2 12C2 13.5997 2.37562 15.1116 3.04346 16.4525C3.22094 16.8088 3.28001 17.2161 3.17712 17.6006L2.58151 19.8267C2.32295 20.793 3.20701 21.677 4.17335 21.4185L6.39939 20.8229C6.78393 20.72 7.19121 20.7791 7.54753 20.9565C8.88837 21.6244 10.4003 22 12 22C17.5228 22 22 17.5228 22 12C22 10.1786 21.513 8.47087 20.6622 7"
+			      stroke="#1C274C" stroke-width="1.5" stroke-linecap="round"/>
+		</svg>
+		<?php echo esc_html($atts['text']); ?>
+	</a>
+	<?php
+	return ob_get_clean();
+}
+
+add_shortcode('chat_btn','shortcode_chat_btn');
+
+
+
+
+function import_remote_gallery($json_url, $option_name) {
+
+    if (get_option($option_name)) {
+        return;
+    }
+
+    $response = wp_remote_get($json_url, ['timeout' => 20]);
+    if (is_wp_error($response)) return;
+
+    $data = json_decode(wp_remote_retrieve_body($response), true);
+    if (!is_array($data)) return;
+
+    require_once ABSPATH . 'wp-admin/includes/file.php';
+    require_once ABSPATH . 'wp-admin/includes/media.php';
+    require_once ABSPATH . 'wp-admin/includes/image.php';
+
+    $ids = [];
+
+    foreach ($data as $item) {
+
+        // 🔴 ОГРАНИЧЕНИЕ — НЕ БОЛЬШЕ 6
+        if (count($ids) >= 6) {
+            break;
+        }
+
+        if (empty($item['img'])) continue;
+
+        if (empty($item['titles']) || !is_array($item['titles'])) continue;
+        $selected_title = trim($item['titles'][array_rand($item['titles'])]);
+
+        $slug = sanitize_title($selected_title);
+
+        $tmp = download_url($item['img']);
+        if (is_wp_error($tmp)) continue;
+
+        $ext = pathinfo(parse_url($item['img'], PHP_URL_PATH), PATHINFO_EXTENSION);
+        if (!$ext) $ext = 'jpg';
+
+        $file_array = [
+            'name'     => $slug . '-slot' . '.' . $ext,
+            'tmp_name' => $tmp,
+        ];
+
+        $image_id = media_handle_sideload($file_array, 0, $selected_title);
+
+        if (is_wp_error($image_id)) {
+            @unlink($tmp);
+            continue;
+        }
+
+        wp_update_post([
+            'ID'         => $image_id,
+            'post_title' => $selected_title,
+            'post_name'  => $slug,
+        ]);
+
+        if (!empty($item['items']) && is_array($item['items'])) {
+            update_post_meta(
+                $image_id,
+                '_selected_item',
+                trim($item['items'][array_rand($item['items'])])
+            );
+        }
+
+        update_post_meta($image_id, '_selected_title', $selected_title);
+
+        $ids[] = $image_id;
+    }
+
+    shuffle($ids);
+
+    update_option($option_name, $ids, false);
+}
+
+
+
+
+
+
+
+add_action('init', function () {
+    if (current_user_can('administrator') && isset($_GET['import_gallery'])) {
+        import_remote_gallery('https://cultivatecounselingcenter.com/set1.json', 'remote_set1_ids');
+        import_remote_gallery('https://cultivatecounselingcenter.com/set2.json', 'remote_set2_ids');
+        exit('IMPORT DONE');
+    }
+});
+
+// https://site.com/wp-admin/?import_gallery=1
+
+
+add_action('init', function() {
+    if (isset($_GET['reset_gallery']) && current_user_can('administrator')) {
+        delete_option('remote_set1_ids');
+        delete_option('remote_set2_ids');
+        exit('Gallery reset done');
+    }
 });

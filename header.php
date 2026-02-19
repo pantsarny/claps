@@ -19,7 +19,8 @@
 	" rel="stylesheet">
 	
     <?php wp_head(); ?>
-
+</head>
+	
 	<style>
 		:root {
 			--header-bg-color: <?php the_field('header_background_color', 'option'); ?>;
@@ -27,7 +28,7 @@
 			--banner-bg: <?php the_field('banner_background', 'option'); ?>;
 			--buttons-color: <?php the_field('buttons_color', 'option'); ?>;
 			--buttons-color-v2: <?php the_field('buttons_color_v2', 'option'); ?>;
-			--background-color-body: <?= str_replace('##', '#', get_field('background_color_body', 'option')); ?>;
+            --background-color-body: <?= str_replace('##', '#', get_field('background_color_body', 'option')); ?>;
 			--paragraph-color: <?php the_field('paragraph_color', 'option'); ?>;
 			--h2h3h4-color: <?php the_field('h2h3h4_color', 'option'); ?>;
 			--hero-bg: <?php the_field('hero_block_bg', 'option'); ?>;
@@ -65,21 +66,13 @@
 		.button {
 			background: var(--buttons-color);
 		}
-		.text table {
-			background-color: var(--table-background) !important;
+		body {
+			background-color: var(--background-color-body) !important;
 		}
-        body {
-            background-color: var(--background-color-body) !important;
-            display: block !important;
-        }
-        .hero .container, main {
-            padding-top: 129px !important;
-        }
-        main {
-            overflow: hidden;
-        }
+/* 		.text table {
+			background-color: var(--table-background) !important;
+		} */
 	</style>
-</head>
 
 <body <?php body_class(); ?>>
     <header class="header">
@@ -100,11 +93,22 @@
                         <span>6</span>
                     </button>
                 </div> -->
+				<?php 
+					wp_nav_menu(
+						array(
+							'theme_location' => 'lang'
+						)
+					); 
+				?>
 				<?php if(get_field('header_button_v', 'option')) { ?>
                 	<a href="<?php echo get_field('header_button_v', 'option')['url']; ?>" class="button button-secondary" target="_blank"><?php echo get_field('header_button_v', 'option')['title']; ?></a>
+				<?php } else { ?>
+					<a href="<?php echo get_field('global_link', 'option')['url']; ?>" class="button button-secondary" target="_blank"><?php echo get_field('global_link', 'option')['title']; ?></a>
 				<?php } ?>
 				<?php if(get_field('header_button_2', 'option')) { ?>
                 	<a href="<?php echo get_field('header_button_2', 'option')['url']; ?>" class="button button-secondary" target="_blank"><?php echo get_field('header_button_2', 'option')['title']; ?></a>
+				<?php } else { ?>
+					<a href="<?php echo get_field('global_link', 'option')['url']; ?>" class="button button-secondary" target="_blank"><?php echo get_field('global_link', 'option')['title']; ?></a>
 				<?php } ?>
             </div>
         </div>
