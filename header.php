@@ -19,8 +19,7 @@
 	" rel="stylesheet">
 	
     <?php wp_head(); ?>
-</head>
-	
+
 	<style>
 		:root {
 			--header-bg-color: <?php the_field('header_background_color', 'option'); ?>;
@@ -69,10 +68,24 @@
 		body {
 			background-color: var(--background-color-body) !important;
 		}
-/* 		.text table {
+ 		.text table {
 			background-color: var(--table-background) !important;
-		} */
+		}
+        .text table {
+            background-color: var(--table-background) !important;
+        }
+        body {
+            background-color: var(--background-color-body) !important;
+            display: block !important;
+        }
+        .hero .container, main {
+            padding-top: 129px !important;
+        }
+        main {
+            overflow: hidden;
+        }
 	</style>
+</head>
 
 <body <?php body_class(); ?>>
     <header class="header">
