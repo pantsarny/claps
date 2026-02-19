@@ -15,19 +15,11 @@
  * runs before the init hook. The init hook is too late for some features, such
  * as indicating support for post thumbnails.
  */
- 
+
+
 require_once ABSPATH . 'wp-admin/includes/file.php';
 require_once ABSPATH . 'wp-admin/includes/media.php';
 require_once ABSPATH . 'wp-admin/includes/image.php';
-
-add_filter('acf/settings/load_json', function($paths) {
-    $paths[] = get_stylesheet_directory() . '/acf-fields';
-    return $paths;
-});
-
-add_filter('acf/settings/save_json', function($path) {
-    return get_stylesheet_directory() . '/acf-fields';
-});
 
 add_filter( 'wpseo_canonical', '__return_false');
 add_filter( 'get_canonical_url', function ( $canonical, $page ) {
