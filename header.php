@@ -106,13 +106,6 @@
                         <span>6</span>
                     </button>
                 </div> -->
-				<?php 
-					wp_nav_menu(
-						array(
-							'theme_location' => 'lang'
-						)
-					); 
-				?>
 				<?php if(get_field('header_button_v', 'option')) { ?>
                 	<a href="<?php echo get_field('header_button_v', 'option')['url']; ?>" class="button button-secondary" target="_blank"><?php echo get_field('header_button_v', 'option')['title']; ?></a>
 				<?php } else { ?>
