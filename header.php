@@ -68,9 +68,9 @@
 		body {
 			background-color: var(--background-color-body) !important;
 		}
- 		/*.text table {
+ 		.text table {
 			background-color: var(--table-background) !important;
-		}*/
+		}
         body {
             background-color: var(--background-color-body) !important;
             display: block !important;
