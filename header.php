@@ -34,7 +34,9 @@
 			--links-color-content: <?php echo get_field('links_color_content', 'option') ?: get_field('links_color', 'option'); ?>;
 			--table-background: <?php the_field('table_background', 'option'); ?>;
 			--table-background-body: <?php echo get_field('table_background_body', 'option') ?: 'initial'; ?>;
-			--accordion-item-title: <?php echo get_field('accordion_item_title_color', 'option') ?: 'initial'; ?>;
+            <?php if ($value = get_field('accordion_item_title_color', 'option')): ?>
+            --accordion-item-title: <?=$value?>;
+            <?php endif; ?>
 		}
 		.header {
 			background: var(--header-bg-color);
@@ -88,9 +90,11 @@
         main {
             overflow: hidden;
         }
-        .accordion__item-content p,
+        .accordion__item-content p {
+            color: var(--accordion-item-title, var(--paragraph-color)) !important;
+        }
         .accordion__item-title {
-            color: var(--accordion-item-title) !important;
+            color: var(--accordion-item-title, var(--h2h3h4-color)) !important;
         }
 	</style>
 </head>
