@@ -14,9 +14,7 @@
     <meta name="theme-color" content="#3A2B62">
     <meta name="msapplication-navbutton-color" content="#3A2B62">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-	<link href="
-	https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css
-	" rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css" rel="stylesheet">
 	
     <?php wp_head(); ?>
 
@@ -90,6 +88,7 @@
         main {
             overflow: hidden;
         }
+        .accordion__item-content p,
         .accordion__item-title {
             color: var(--accordion-item-title) !important;
         }

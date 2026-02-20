@@ -722,7 +722,7 @@
         },
         {
             "key": "field_6997269752d22",
-            "label": "Accordion Item Title Color",
+            "label": "Accordion Item Color",
             "name": "accordion_item_title_color",
             "aria-label": "",
             "type": "color_picker",
@@ -864,5 +864,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1771513526
+    "modified": 1771576159
 }
